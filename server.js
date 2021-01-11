@@ -1,9 +1,7 @@
-const data = {};
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const port = 8000;
+const port = 3000;
 
 const app = express();
 
@@ -11,18 +9,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use(express.static('website'));
+app.listen(port, () => console.log(`App listening on port: ${port}`));
 
 
-const server = app.listen(port, () => {
-    console.log(`App listening on port: ${port}`)
+const data = [];
+
+app.post('/addMovie', function addMovie (req, res) {
+    let newData = req.body;
+    let newEntry = {
+        key: newData.key
+    };
+    data.push(newEntry);
+    console.log(newEntry);
 });
 
-app.get('/all', (req, res) => {res.send(data)});
+app.get('/addMovie', (req, res) => res.send(data));
 
-app.post('/add', addData);
+console.log(data);
 
-function addData (req, res) {
-    data.push(req.body);
-    console.log(data);
-};
+
+
+// app.post('/add', (req, res) => {data.push(req.body)});
+
+//app.post('/all', (req, res) => {
+//    let data = req.body;
+//    console.log(data);
+//});
